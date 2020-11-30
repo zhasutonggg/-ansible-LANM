@@ -1,0 +1,6 @@
+[cluster]
+nginx-keepalived[1:2]
+[store]
+db-nfs
+[webs]
+webserver[1:2]
