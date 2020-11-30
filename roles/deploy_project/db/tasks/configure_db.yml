@@ -1,0 +1,39 @@
+- name: Start db service
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Create database bbs
+  mysql_db:
+    name: bbs
+    state: present
+    encoding: utf8
+  ignore_errors: yes
+
+- name: Removes anonymous user account for localhost
+  mysql_user:
+    name: ''
+    host: localhost
+    state: absent
+  ignore_errors: yes
+
+- name: Set the root password.
+  mysql_user:
+    user: root
+    host: localhost
+    password: root
+    update_password: always
+  ignore_errors: yes
+
+- name: Create database user with name 'bbs' and password '12345' with all database privileges
+  mysql_user:
+    name: bbs
+    password: 12345
+    priv: 'bbs.*:ALL'
+    host: '192.168.132.%'
+    state: present
+    login_user: root
+    login_password: root
+  ignore_errors: yes
+

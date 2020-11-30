@@ -1,0 +1,2 @@
+#为web服务器共享/webdata
+/webdata 192.168.132.0/24(rw,sync)

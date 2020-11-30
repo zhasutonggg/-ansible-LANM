@@ -1,0 +1,10 @@
+---
+# tasks file for nginx
+- name: include tasks list
+  include_tasks:
+    file: "{{ item }}"
+  loop:
+    - install.yml
+    - modift_script.yml
+    - configure_nginx.yml
+    - start.yml

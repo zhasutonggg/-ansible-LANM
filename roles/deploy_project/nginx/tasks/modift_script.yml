@@ -1,0 +1,12 @@
+- name: Modify service script
+  file:
+    path: /etc/systemd/system/nginx.service.d
+    state: directory
+ 
+- name: copy override.conf to nginx.service.d
+  copy:
+    src: override.conf
+    dest: /etc/systemd/system/nginx.service.d
+
+- name: restart dameon
+  shell: systemctl daemon-reload

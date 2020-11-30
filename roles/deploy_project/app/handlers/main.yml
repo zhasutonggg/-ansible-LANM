@@ -1,0 +1,10 @@
+---
+# handlers file for app
+- name: restart apache
+  service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - httpd
+    - php-fpm
+

@@ -1,0 +1,4 @@
+---
+# vars file for nfs
+web01: webserver1
+app_dir: /webdata

@@ -1,0 +1,8 @@
+---
+# tasks file for db
+- name: Include tasks list
+  include_tasks:
+    file: "{{ item }}"
+  loop:
+    - install.yml
+    - configure_db.yml

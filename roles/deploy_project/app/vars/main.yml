@@ -1,0 +1,9 @@
+---
+# vars file for app
+db_name: bbs
+db_host: db-nfs
+db_user: bbs
+db_pass: 12345
+nfs01: db-nfs 
+nfs_ip: db-nfs
+

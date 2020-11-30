@@ -1,0 +1,43 @@
+---
+# tasks file for keepalived
+- name: 1. install keepalived
+  yum:
+    name: keepalived
+
+- name: 2. modify keepalived scripts
+  copy:
+    src: keepalived.service
+    dest: /usr/lib/systemd/system/keepalived.service
+
+- name: 3. systemctl daemon-reload
+  shell: systemctl daemon-reload
+
+- name: 4. configure nginx check script
+  copy:
+    src: check_nginx.sh
+    dest: /etc/keepalived/check_nginx.sh
+    mode: a+x
+
+
+- name: 6. configure 01
+  template:
+    src: keepalived_1.conf
+    dest: /etc/keepalived/keepalived.conf
+  notify:
+    - restart keepalived
+  delegate_to: "{{ k01_ip }}"  
+
+- name: 7. configure 02
+  template:
+    src: keepalived_2.conf
+    dest: /etc/keepalived/keepalived.conf
+  notify:
+    - restart keepalived
+  delegate_to: "{{ k02_ip }}"
+
+- name: 8. start keepalived
+  service:
+    name: keepalived
+    state: restarted
+    enabled: yes
+

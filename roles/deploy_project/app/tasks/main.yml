@@ -1,0 +1,30 @@
+---
+# tasks file for app
+- name: modify app configure file
+  template:
+    src: config.inc.php
+    dest: /webdata/phpems/lib/config.inc.php
+  delegate_to: "{{ nfs01 }}"
+
+- name: configure app
+  block:
+    - name: 1. install nfs client
+      yum:
+        name: nfs-utils
+
+    - name: 2. mount app
+      mount:
+        src: "{{ nfs_ip }}:/webdata/phpems"
+        path: /var/www/html
+        fstype: nfs
+        opts: defaults,_netdev
+        state: mounted
+
+    - name: 3. configure virtualhost
+      copy:
+        src: vhost.conf
+        dest: /etc/httpd/conf.d/vhost.conf
+      notify:
+        - restart apache
+  when: inventory_hostname in groups ['webs']
+

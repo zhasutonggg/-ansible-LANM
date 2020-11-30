@@ -1,0 +1,9 @@
+---
+# handlers file for web
+- name: restart apache
+  service: 
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - httpd
+    - php-fpm

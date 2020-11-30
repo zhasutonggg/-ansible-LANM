@@ -1,0 +1,5 @@
+---
+# vars file for keepalived
+k01_ip: nginx-keepalived1
+k02_ip: nginx-keepalived2
+nginx_vip: 192.168.132.80

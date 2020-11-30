@@ -1,0 +1,53 @@
+---
+# tasks file for nfs
+- name: Get apache's uid
+  shell: id -u apache
+  register: info
+  delegate_to: "{{ web01 }}"
+
+- name: configure nfs server
+  block:
+  - name: 1.Create app directory
+    file:
+      path: "{{ app_dir }}"
+      state: directory
+
+  - name: 2.Create apache user
+    user:
+      name: apache
+      uid: "{{ info.stdout }}"
+      shell: /sbin/nologin
+      create_home: no
+
+  - name: 3.Copy app
+    copy:
+      src: phpems_zxmnks_v6.0.zip
+      dest: /tmp
+ 
+  - name: copy shell script
+    copy: 
+      src: unzip_app.sh
+      dest: /tmp
+
+  - name: untar app
+    shell: sh /tmp/unzip_app.sh
+
+  - name: install nfs
+    yum:
+      name:
+        - nfs-utils
+        - rpcbind
+
+  - name: configure /etc/exports
+    copy:
+      src: exports
+      dest: /etc/exports
+    notify:
+      - restart nfs
+
+  - name: start nfs
+    service:
+      name: nfs-server
+      state: started
+      enabled: yes
+  when: inventory_hostname in groups['store']

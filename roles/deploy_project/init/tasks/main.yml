@@ -1,0 +1,51 @@
+---
+# tasks file for init
+- name: 1.stop firewalld 
+  service: 
+    name: firewalld
+    state: stopped
+    enabled: no
+
+- name: 2.disabled selinux
+  selinux:
+    state: disabled
+
+- name: 3.configure epel
+  get_url:
+    url: http://mirrors.aliyun.com/repo/epel-7.repo
+    dest: /etc/yum.repos.d/epel.repo
+
+- name: Install software
+  yum:
+    name: 
+      - bash-completion
+      - lrzsz
+      - net-tools
+      - wget
+      - vim
+      - psmisc
+      - unzip
+      - dos2unix
+    state: present
+
+- name: 5.configure time sysnchronization
+  block:
+    - name: 5.1 Install chrony
+      yum:
+        name: chrony
+        
+    - name: 5.2 configure ntp client
+      copy:
+        src: chrony_client.conf
+        dest: /etc/chrony.conf
+
+    - name: 5.3 restart chronyd service
+      service:
+        name: chronyd
+        state: restarted
+        enabled: yes
+
+- name: 6.configure hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts

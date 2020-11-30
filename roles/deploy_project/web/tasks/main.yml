@@ -1,0 +1,9 @@
+---
+# tasks file for web
+- name: Include task list
+  include_tasks:
+    file: "{{ item }}"
+  loop:
+    - install.yml
+    - start.yml
+    - configure_apache.yml
