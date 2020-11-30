@@ -1,0 +1,25 @@
+---
+- hosts: all
+  roles:
+    - deploy_project/init
+
+- hosts: store
+  roles:
+    - deploy_project/db
+
+- hosts: webs
+  roles:
+    - deploy_project/web
+
+- hosts: store,webs
+  roles:
+    - deploy_project/nfs
+
+- hosts: cluster
+  roles:
+    - deploy_project/nginx
+    - deploy_project/keepalived
+ 
+- hosts: store,webs
+  roles:
+    - deploy_project/app
