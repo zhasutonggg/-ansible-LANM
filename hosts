@@ -1,0 +1,8 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.132.181 ansible.adm adm
+192.168.132.211 nginx-keepalived1
+192.168.132.212 nginx-keepalived2
+192.168.132.213 webserver1
+192.168.132.214 webserver2
+192.168.132.215 db-nfs
